@@ -1,0 +1,20 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+        {
+            "name": "Mandatory linux",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${cwd}/push_swap",
+            "args": [
+                "1", "9", "8", "4", "3"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "preLaunchTask": "push-swap-make",
+        },
+	]
+}
