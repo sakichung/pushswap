@@ -1,23 +1,23 @@
 NAME = push_swap
 
 SRCS = parse_input.c \
-       print_operations.c \
-       push_operations.c \
        pushswap.c \
        radix_sort.c \
-       sort_smallnum.c \
-       swap_operations.c \
+       sort_small_num.c \
        util.c \
-       initialize_stack.c\
-	   reverse_rotate_operations.c \
-	   rotate_operations.c
-
+	operations_reverse_rotate.c\
+       operations_push.c \
+       operations_rotate.c \
+       operations_swap.c \
+        error.c  \
+       node.c \
+       init.c
 
 OBJS = $(SRCS:.c=.o)
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-CFLAGS += -g -fsanitize=address
+# CFLAGS += -g -fsanitize=address
 
 HEADERS = pushswap.h
 
@@ -27,6 +27,7 @@ $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
 
 %.o: %.c $(HEADERS)
+
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

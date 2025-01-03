@@ -6,66 +6,62 @@
 /*   By: pchung <pchung@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 00:23:25 by pchung            #+#    #+#             */
-/*   Updated: 2025/01/03 04:57:20 by pchung           ###   ########.fr       */
+/*   Updated: 2025/01/03 20:14:59 by pchung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-
-int get_bit(int num, int bit_position)
+void	radix_sort(t_stack *stack_a, t_stack *stack_b)
 {
-    return (num >> bit_position) & 1;
-}
+	int		max_bits;
+	t_node	*current;
+	int		num;
+	int		count;
+	int		value;
 
-void radix_sort(t_stack *stack_a, t_stack *stack_b)
-{
-	int max_bits = 0;
-	int i;
-
-	for (i = 0; i < stack_a->size; i++)
+	max_bits = 0;
+	current = stack_a->top;
+	while (current)
 	{
-		int num = stack_a->data[i];
-		while ((num >> max_bits) != 0)
+		num = current->value;
+		while (num >> max_bits)
 			max_bits++;
+		current = current->next;
 	}
-
-	
-	for (i = 0; i < max_bits; i++)
+	for (int i = 0; i < max_bits; i++)
 	{
-		int count = stack_a->size;
-
+		count = stack_a->size;
 		while (count--)
 		{
-			
-			if (get_bit(stack_a->data[stack_a->top], i) == 0)
-				pb(stack_a, stack_b); 
+			value = stack_a->top->value;
+			if (((value >> i) & 1) == 0)
+				pb(stack_a, stack_b);
 			else
-				ra(stack_a); 
+				ra(stack_a);
 		}
-
-		
-		while (stack_b->top >= 0)
-			pa(stack_a, stack_b); 
+		while (stack_b->top)
+			pa(stack_a, stack_b);
 	}
 }
 
-void sort_stack(t_stack *stack_a, t_stack *stack_b)
+void	sort_stack(t_stack *stack_a, t_stack *stack_b)
 {
-	if (stack_a->size <= 1)
-		return;
-	else if (stack_a->size == 2)
+	if (stack_a->size == 2)
 	{
-		if (stack_a->data[stack_a->top] > stack_a->data[stack_a->top - 1])
-			sa(stack_a); 
+		sort_2(stack_a);
 	}
 	else if (stack_a->size == 3)
 	{
-		sort_three(stack_a);
+		sort_3(stack_a);
 	}
-	else if (stack_a->size <= 5)
+	else if (stack_a->size == 4)
 	{
-		sort_five(stack_a, stack_b);
+		sort_4(stack_a, stack_b);
+	}
+	else if (stack_a->size == 5)
+	{
+		sort_5(stack_a, stack_b);
 	}
 	else
 	{

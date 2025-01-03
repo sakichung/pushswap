@@ -1,39 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_input.c                                      :+:      :+:    :+:   */
+/*   node.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pchung <pchung@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/03 00:19:51 by pchung            #+#    #+#             */
-/*   Updated: 2025/01/03 23:40:30 by pchung           ###   ########.fr       */
+/*   Created: 2025/01/03 22:33:44 by pchung            #+#    #+#             */
+/*   Updated: 2025/01/03 22:34:20 by pchung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-int	parse_input(int argc, char **argv)
+t_node	*create_node(int value)
 {
-	long	num;
-	int		i;
-	int		j;
+	t_node	*new_node;
 
-	i = 1;
-	while (i < argc)
-	{
-		if (!is_valid_number(argv[i]))
-			return (0); // 数字でない場合
-		num = ft_atoi(argv[i]);
-		if (num < INT_MIN || num > INT_MAX)
-			return (0); // オーバーフロー/アンダーフロー検出
-		j = 1;
-		while (j < i)
-		{
-			if (ft_atoi(argv[j]) == num)
-				return (0); // 重複検出
-			j++;
-		}
-		i++;
-	}
-	return (1);
+	new_node = (t_node *)malloc(sizeof(t_node));
+	if (!new_node)
+		error_exit();
+	new_node->value = value;
+	new_node->next = NULL;
+	return (new_node);
+}
+
+void	push_node(t_stack *stack, int value)
+{
+	t_node	*new_node;
+
+	new_node = create_node(value);
+	new_node->next = stack->top;
+	stack->top = new_node;
+	stack->size++;
 }

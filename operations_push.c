@@ -1,35 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_operations.c                                  :+:      :+:    :+:   */
+/*   operations_push.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pchung <pchung@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 23:22:01 by pchung            #+#    #+#             */
-/*   Updated: 2025/01/03 05:20:19 by pchung           ###   ########.fr       */
+/*   Updated: 2025/01/03 20:24:33 by pchung           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-void pa(t_stack *stack_a, t_stack *stack_b)
+void	pa(t_stack *stack_a, t_stack *stack_b)
 {
-	if (stack_b->top >= 0) 
-	{
-		stack_a->size = stack_a->size + 1;
-		stack_b->size = stack_b->size - 1;
-		stack_a->data[++stack_a->top] = stack_b->data[stack_b->top--];
-		add_operation(&stack_a->operations, "pa");
-	}
+	t_node	*tmp;
+
+	if (stack_b->size == 0)
+		return ;
+	tmp = stack_b->top;
+	stack_b->top = stack_b->top->next;
+	tmp->next = stack_a->top;
+	stack_a->top = tmp;
+	stack_a->size++;
+	stack_b->size--;
+	write(1, "pa\n", 3);
 }
 
-void pb(t_stack *stack_a, t_stack *stack_b)
+void	pb(t_stack *stack_a, t_stack *stack_b)
 {
-	if (stack_a->top >= 0) 
-	{
-		stack_a->size = stack_a->size - 1;
-		stack_b->size = stack_b->size + 1;
-		stack_b->data[++stack_b->top] = stack_a->data[stack_a->top--];
-		add_operation(&stack_a->operations, "pb");
-	}
+	t_node	*tmp;
+
+	if (stack_a->size == 0)
+		return ;
+	tmp = stack_a->top;
+	stack_a->top = stack_a->top->next;
+	tmp->next = stack_b->top;
+	stack_b->top = tmp;
+	stack_a->size--;
+	stack_b->size++;
+	write(1, "pb\n", 3);
 }
